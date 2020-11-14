@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.ttf");
+* {
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  outline: none;
+  background: transparent;
+  font-family: "Open Sans Condensed", sans-serif;
+  background-size: cover !important;
+  list-style: none;
+  text-decoration: none;
+  color: #444;
+  border: none;
+}
+
+body {
+  background: beige;
+}
+
+a {
+  cursor: pointer;
+}
+
+#nprogress .bar {
+  height: 4px !important;
+  background: purple !important;
+}
+
+#nprogress .peg {
+  box-shadow: unset !important;
+}
