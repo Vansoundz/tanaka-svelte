@@ -1,7 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { goto } from "@sapper/app";
   import { fly } from "svelte/transition";
   import { productStore } from "../store/products";
+
+  import Glide from "@glidejs/glide";
+
   let show: HTMLImageElement;
   let index = 0;
 
@@ -13,15 +17,29 @@
   ];
 
   onMount(() => {
-    show = document.getElementById("img-show") as HTMLImageElement;
-    setInterval(() => {
-      if (index === images.length - 1) {
-        index = 0;
-      } else {
-        index += 1;
-      }
-      if (show) show.src = images[index];
-    }, 4000);
+    new Glide("#showcase", {
+      startAt: 0,
+      autoplay: false,
+      perView: 3,
+    }).mount();
+
+    new Glide("#imgs", {
+      type: "carousel",
+      focusAt: "center",
+      startAt: 0,
+      autoplay: 3000,
+      perView: 1,
+    }).mount();
+
+    // show = document.getElementById("img-show") as HTMLImageElement;
+    // setInterval(() => {
+    //   if (index === images.length - 1) {
+    //     index = 0;
+    //   } else {
+    //     index += 1;
+    //   }
+    //   if (show) show.src = images[index];
+    // }, 4000);
   });
 </script>
 
@@ -72,11 +90,11 @@
     overflow: hidden;
   }
 
-  .showcase {
+  /* .showcase {
     display: flex;
     max-width: 80%;
     margin: auto;
-  }
+  } */
 
   .item {
     min-height: 300px;
@@ -99,6 +117,11 @@
     padding: 8px 16px;
     cursor: pointer;
   }
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
 </style>
 
 <svelte:head>
@@ -107,8 +130,36 @@
 
 <div class="display">
   <div>
-    <div class="image">
-      <img id="img-show" transition:fly={{ y: 100 }} alt="" />
+    <div class="image glide" id="imgs">
+      <!-- <img id="img-show" transition:fly={{ y: 100 }} alt="" /> -->
+      <div class="glide__track" data-glide-el="track">
+        <ul class=" glide__slides">
+          {#if $productStore.products.length > 0}
+            {#each $productStore.products.slice(0, 5) as product (product._id)}
+              <li class="glide__slide center">
+                <img src={product.image} alt="" />
+              </li>
+              <!-- <li
+                style="background: url({product.image})"
+                class="item glide__slide">
+                <div
+                  on:click={() => goto(`products/${product.category.name}`)}
+                  class="explore">
+                  Explore
+                </div>
+              </li> -->
+            {/each}
+          {:else}
+            {#each images as image (image)}
+              <div style="background: url({image})" class="item glide__slide">
+                <div on:click={() => goto('products')} class="explore">
+                  Explore
+                </div>
+              </div>
+            {/each}
+          {/if}
+        </ul>
+      </div>
     </div>
     <div>
       <h3>All your favorites in one place</h3>
@@ -116,29 +167,41 @@
   </div>
 </div>
 <div class="slides-container">
-  <div class="glider-contain">
-    <div class="glider">
-      <div class="showcase" id="showcase">
+  <div class="glide" id="showcase">
+    <div class="glide__track" data-glide-el="track">
+      <ul class=" glide__slides">
         {#if $productStore.products.length > 0}
           {#each $productStore.products.slice(0, 5) as product (product._id)}
-            <div style="background: url({product.image})" class="item">
-              <div class="explore">Explore</div>
-            </div>
+            <li
+              style="background: url({product.image})"
+              class="item glide__slide">
+              <div
+                on:click={() => goto(`products/${product.category.name}`)}
+                class="explore">
+                Explore
+              </div>
+            </li>
           {/each}
         {:else}
           {#each images as image (image)}
-            <div style="background: url({image})" class="item">
-              <div class="explore">Explore</div>
+            <div style="background: url({image})" class="item glide__slide">
+              <div on:click={() => goto('products')} class="explore">
+                Explore
+              </div>
             </div>
           {/each}
         {/if}
-      </div>
+      </ul>
     </div>
-    <button aria-label="Previous" class="glider-prev">
-      <div class="material-icons">arrow_back_ios</div>
-    </button>
-    <button aria-label="Next" class="glider-next">
-      <div class="material-icons">arrow_forward_ios</div>
-    </button>
   </div>
 </div>
+<!-- 
+<div class="glide">
+  <div data-glide-el="track" class="glide__track">
+    <ul class="glide__slides">
+      <li class="glide__slide" />
+      <li class="glide__slide" />
+      <li class="glide__slide" />
+    </ul>
+  </div>
+</div> -->

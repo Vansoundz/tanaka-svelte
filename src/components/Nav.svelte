@@ -2,8 +2,9 @@
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
   import { cartStore } from "../store/cart";
+  import { productStore } from "../store/products";
   export let segment: string;
-  const categories = ["tshirts", "scarfs", "skirts", "pants", "hoodies"];
+  $: categories = $productStore.categories;
 
   let sidenav = false;
 
@@ -77,7 +78,7 @@
     margin-right: 16px;
   }
 
-  nav > ul li,
+  li,
   .links,
   #basket {
     position: relative;
@@ -92,14 +93,14 @@
     color: black;
   }
 
-  nav > ul li.active::after {
+  ul > li.active::after {
     content: "";
     position: absolute;
     width: 80%;
     height: 4px;
-    background: goldenrod;
+    background: orange;
+    bottom: -18px;
     left: 0;
-    bottom: -19px;
   }
 
   .categories {
@@ -135,7 +136,7 @@
     position: absolute;
     top: -8px;
     font-weight: bold;
-    color: black;
+    color: #fff;
     background: orange;
     text-align: center;
     font-size: 12px;
@@ -199,7 +200,7 @@
       padding: 4px 16px;
     }
 
-    nav > ul li.active::after {
+    ul li.active::after {
       width: 4px;
       height: 100%;
       top: 0;
@@ -252,7 +253,7 @@
   {#if !small}
     <div class="links lg">
       <ul id="">
-        <li on:click={showHideMenu} class:active={segment === 'explore'}>
+        <li class:active={segment === 'explore'}>
           <a href="explore">Explore</a>
         </li>
         <li id="categories">
@@ -268,31 +269,27 @@
                 }}>
                 <a href="products">All</a>
               </li>
-              {#each categories as category (category)}
+              {#each categories as category (category._id)}
                 <li
                   on:click={() => {
-                    goto(`products/${category}`);
+                    goto(`products/${category.name}`);
                     if (small) {
                       showHideSidebar();
                     } else showHideMenu();
                   }}>
-                  <a href="products/{category}">{category}</a>
+                  <a href="products/{category.name}">{category.name}</a>
                 </li>
               {/each}
             </ul>
           </div>
         </li>
-        <li class:active={segment === 'men'} on:click={showHideMenu}>
-          <a href="/">Men</a>
-        </li>
-        <li class:active={segment === 'women'} on:click={showHideMenu}>
-          <a href="/">Women</a>
-        </li>
+        <li class:active={segment === 'men'}><a href="men">Men</a></li>
+        <li class:active={segment === 'women'}><a href="women">Women</a></li>
       </ul>
     </div>
   {/if}
   <div class="cart">
-    <a href="cart.html">
+    <a href="/cart">
       <div id="basket">
         <div class="material-icons">shopping_bag</div>
         {#if $cartStore.products.length > 0}
@@ -306,7 +303,7 @@
 {#if small}
   <div class:active={sidenav} on:click|self={showHideSidebar} class="links sm">
     <ul id="sidenav">
-      <li class:active={segment === 'explore'}>
+      <li class:active={segment === 'explore'} on:click={showHideSidebar}>
         <a href="explore">Explore</a>
       </li>
       <li id="categories">
@@ -322,25 +319,25 @@
               }}>
               <a href="products">All</a>
             </li>
-            {#each categories as category (category)}
+            {#each categories as category (category._id)}
               <li
                 on:click={() => {
-                  goto(`products/${category}`);
+                  goto(`products/${category.name}`);
                   if (small) {
                     showHideSidebar();
                   }
                 }}>
-                <a href="products/{category}">{category}</a>
+                <a href="products/{category.name}">{category.name}</a>
               </li>
             {/each}
           </ul>
         </div>
       </li>
       <li class:active={segment === 'men'} on:click={showHideSidebar}>
-        <a href="/">Men</a>
+        <a href="men">Men</a>
       </li>
       <li class:active={segment === 'women'} on:click={showHideSidebar}>
-        <a href="/">Women</a>
+        <a href="women">Women</a>
       </li>
     </ul>
   </div>

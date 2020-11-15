@@ -2,8 +2,12 @@
   import type { Product } from "../../models/product.model";
   import { cartStore } from "../../store/cart";
   import { goto } from "@sapper/app";
-
   export let product: Product;
+
+  $: isAdded = (): boolean => {
+    let p = $cartStore.products.find((pr) => pr._id === product._id);
+    return p ? true : false;
+  };
 </script>
 
 <style>
@@ -11,7 +15,6 @@
     min-height: 300px;
     max-height: 330px;
     min-width: 220px;
-    background: green;
     overflow: hidden;
     border-radius: 4px;
     display: flex;
@@ -46,7 +49,7 @@
   .explore span:first-child {
     background: mediumpurple;
   }
-  .explore span:first-child a {
+  .explore span > * {
     color: #fff;
   }
 
@@ -69,6 +72,11 @@
     width: 100%;
     padding: 4px;
   }
+
+  .name {
+    text-transform: capitalize;
+    font-weight: bold;
+  }
 </style>
 
 <div class="item">
@@ -80,6 +88,12 @@
   <div class="explore">
     <span on:click={() => goto(`products/product/${product._id}`)}>
       <a preload="true" href={`products/product/${product._id}`}>View</a></span>
-    <span on:click={() => cartStore.addToCart(product)}>Add to basket</span>
+    <span on:click={() => cartStore.addToCart(product)}>
+      {#if isAdded()}
+        <div>Added</div>
+      {:else}
+        <div>Add to basket</div>
+      {/if}
+    </span>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Product from "../../components/cards/product.svelte";
-  import { productStore } from "../../store/products";
+  import Product from "../components/cards/product.svelte";
+  import { productStore } from "../store/products";
 </script>
 
 <style>
@@ -36,7 +36,7 @@
   <main>
     <div class="shop">
       <div class="header">
-        <h3>Explore</h3>
+        <h3>Women</h3>
       </div>
       <div class="shopping">
         {#each $productStore.products as product (product._id)}

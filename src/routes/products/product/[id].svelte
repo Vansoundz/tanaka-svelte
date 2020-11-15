@@ -18,6 +18,11 @@
 
   export let product: Product;
   let current = product?.image;
+
+  $: isAdded = (): boolean => {
+    let p = $cartStore.products.find((pr) => pr._id === product._id);
+    return p ? true : false;
+  };
 </script>
 
 <style>
@@ -117,28 +122,29 @@
           <div class="title">{product.name}</div>
           <div class="price">Kshs {product.price}</div>
           <div class="description">
-            <div>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi
-              perferendis architecto illum laudantium quasi non maiores numquam
-              ipsum? Molestiae, consectetur. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Nisi perferendis architecto illum
-              laudantium quasi non maiores numquam ipsum? Molestiae,
-              consectetur.
-            </div>
+            <div>{product.description || 'Proudct description'}</div>
           </div>
           <div class="sizes">
-            <div class="size">s</div>
-            <div class="size">m</div>
-            <div class="size">l</div>
-            <div class="size">xl</div>
-            <div class="size">xxl</div>
+            {#if product.sizes}
+              {#each product.sizes as size (size)}
+                <div class="size">{size}</div>
+              {/each}
+            {/if}
           </div>
           <div class="add">
-            <div
-              on:click={() => cartStore.addToCart(product)}
-              class="add-to-cart">
-              Add to basket
-            </div>
+            {#if isAdded()}
+              <div
+                on:click={() => cartStore.addToCart(product)}
+                class="add-to-cart">
+                Added
+              </div>
+            {:else}
+              <div
+                on:click={() => cartStore.addToCart(product)}
+                class="add-to-cart">
+                Add to basket
+              </div>
+            {/if}
           </div>
         </div>
       </div>

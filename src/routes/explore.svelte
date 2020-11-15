@@ -21,6 +21,15 @@
     column-gap: 16px;
     grid-auto-flow: dense;
   }
+
+  .header {
+    margin-top: 36px;
+  }
+
+  .header h3 {
+    font-size: 26px;
+    font-weight: 300;
+  }
 </style>
 
 <div class="container">
@@ -41,7 +50,7 @@
         <h3>T-shirts</h3>
       </div>
       <div class="shopping">
-        {#each $productStore.products as product (product._id)}
+        {#each $productStore.products.filter((p) => p.category.name === 'tshirts') as product (product._id)}
           <Product {product} />
         {/each}
       </div>
@@ -51,7 +60,7 @@
         <h3>Pants</h3>
       </div>
       <div class="shopping">
-        {#each $productStore.products as product (product._id)}
+        {#each $productStore.products.filter((p) => p.category.name === 'pants') as product (product._id)}
           <Product {product} />
         {/each}
       </div>
@@ -61,7 +70,7 @@
         <h3>Skirts</h3>
       </div>
       <div class="shopping">
-        {#each $productStore.products as product (product._id)}
+        {#each $productStore.products.filter((p) => p.category.name === 'skirts') as product (product._id)}
           <Product {product} />
         {/each}
       </div>

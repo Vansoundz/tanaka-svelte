@@ -1,5 +1,5 @@
 import productApi from "../api/product.api";
-import type { Product } from "../models/product.model";
+import type { Category, Product } from "../models/product.model";
 
 const getProducts = async (): Promise<{ products: Product[] }> => {
   try {
@@ -29,4 +29,30 @@ const getProduct = async (id: string): Promise<{ product: Product }> => {
   }
 };
 
-export { getProducts, getProduct };
+const getCategories = async (): Promise<{ categories: Category[] }> => {
+  try {
+    let data = (await productApi.getCategories()).data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      categories: [],
+    };
+  }
+};
+
+const getProductsByCategory = async (
+  id: string
+): Promise<{ products: Product[] }> => {
+  try {
+    let data = (await productApi.getProductsBycategory(id)).data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      products: [],
+    };
+  }
+};
+
+export { getProducts, getProduct, getCategories, getProductsByCategory };
