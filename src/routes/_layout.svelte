@@ -37,6 +37,8 @@
   }
 
   onMount(async () => {
+    let res = await getProducts();
+    if (res.products) productStore.initProducts(products);
     let resp = await getCategories();
     if (resp.categories) productStore.initCategories(resp.categories);
   });
