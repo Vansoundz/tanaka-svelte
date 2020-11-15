@@ -151,11 +151,7 @@
             {/each}
           {:else}
             {#each images as image (image)}
-              <div style="background: url({image})" class="item glide__slide">
-                <div on:click={() => goto('products')} class="explore">
-                  Explore
-                </div>
-              </div>
+              <li class="glide__slide center"><img src={image} alt="" /></li>
             {/each}
           {/if}
         </ul>
