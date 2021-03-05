@@ -28,4 +28,14 @@ const placeOrder = async (products: Product[], customer: Customer) => {
   }
 };
 
-export { placeOrder };
+const getOrders = async () => {
+  try {
+    let data = (await orderApi.getOrders()).data;
+    return data.orders;
+  } catch (error) {
+    if (error.response.data) throw error.response.data.errors;
+    throw error;
+  }
+};
+
+export { placeOrder, getOrders };

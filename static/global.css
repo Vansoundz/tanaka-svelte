@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.ttf");
+/* @import url("https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.ttf"); */
 * {
   padding: 0;
   margin: 0;
@@ -19,7 +19,8 @@ body {
   background: beige;
 }
 
-a {
+a,
+button {
   cursor: pointer;
 }
 

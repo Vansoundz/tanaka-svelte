@@ -4,7 +4,7 @@ interface Product {
   images?: string[];
   date?: string;
   _id?: string;
-  price?: 400;
+  price?: number;
   name?: string;
   quantity?: string;
   category?: Category;
@@ -24,8 +24,11 @@ interface Category {
 interface Order {
   _id?: string;
   customer?: Customer;
-  products?: string[];
+  products?: Product[];
+  // when placcing an order convert to products
+  selected?: string[];
   quantities?: object;
+  status?: "pending" | "delivered" | "failed";
 }
 
 export type { Product, Category, Order };

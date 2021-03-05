@@ -55,4 +55,22 @@ const getProductsByCategory = async (
   }
 };
 
-export { getProducts, getProduct, getCategories, getProductsByCategory };
+const createProduct = async (product: FormData) => {
+  try {
+    let data = (await productApi.createProduct(product)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.errors);
+    }
+    throw `Error creating product`;
+  }
+};
+
+export {
+  getProducts,
+  getProduct,
+  getCategories,
+  getProductsByCategory,
+  createProduct,
+};

@@ -18,6 +18,8 @@
   import Loader from "../components/loader.svelte";
   import "@glidejs/glide/dist/css/glide.core.min.css";
   import { onMount } from "svelte";
+  import { auth } from "../store/auth";
+  import { initAuth } from "../services/auth.service";
 
   NProgress.configure({
     // minimum: 0.16,
@@ -37,6 +39,15 @@
   }
 
   onMount(async () => {
+    try {
+      let user = await initAuth();
+      if (user._id) auth.login(user);
+    } catch (error) {
+      auth.logout();
+    }
+  });
+
+  onMount(async () => {
     let res = await getProducts();
     if (res.products) productStore.initProducts(products);
     let resp = await getCategories();
@@ -50,9 +61,6 @@
   export let segment: string;
 </script>
 
-<style>
-</style>
-
 {#if $productStore.loading}
   <Loader />
 {/if}
@@ -61,3 +69,6 @@
 <main>
   <slot />
 </main>
+
+<style>
+</style>

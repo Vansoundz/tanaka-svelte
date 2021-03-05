@@ -3,6 +3,7 @@
   import { goto } from "@sapper/app";
   import { cartStore } from "../store/cart";
   import { productStore } from "../store/products";
+  import { auth } from "../store/auth";
   export let segment: string;
   $: categories = $productStore.categories;
 
@@ -43,6 +44,113 @@
     });
   });
 </script>
+
+<nav>
+  <a href="/" id="logo">Tanaka</a>
+  <div class="menu-trigger sm" on:click={showHideSidebar}>
+    <i class="material-icons">menu</i>
+  </div>
+  {#if !small}
+    <div class="links lg">
+      <ul id="">
+        <li class:active={segment === "explore"}>
+          <a href="explore">Explore</a>
+        </li>
+        <li id="categories">
+          <a href="#!" on:click={showHideMenu}>Categories</a>
+          <div class="categories" id="menu-items">
+            <ul>
+              <li
+                on:click={() => {
+                  goto("products");
+                  if (small) {
+                    showHideSidebar();
+                  } else showHideMenu();
+                }}
+              >
+                <a href="products">All</a>
+              </li>
+              {#each categories as category (category._id)}
+                <li
+                  on:click={() => {
+                    goto(`products/${category.name}`);
+                    if (small) {
+                      showHideSidebar();
+                    } else showHideMenu();
+                  }}
+                >
+                  <a href="products/{category.name}">{category.name}</a>
+                </li>
+              {/each}
+            </ul>
+          </div>
+        </li>
+        <li class:active={segment === "men"}><a href="men">Men</a></li>
+        <li class:active={segment === "women"}><a href="women">Women</a></li>
+      </ul>
+    </div>
+  {/if}
+  <div class="cart">
+    <a href="/cart">
+      <div id="basket">
+        <div class="material-icons">shopping_bag</div>
+        {#if $cartStore.products.length > 0}
+          <div class="counter">{$cartStore.products.length}</div>
+        {/if}
+      </div>
+    </a>
+    {#if $auth.isLoggedIn}
+      <a href="/admin" style="margin-left:16px">
+        <i class="material-icons">account_circle</i>
+      </a>
+    {/if}
+  </div>
+</nav>
+
+{#if small}
+  <div class:active={sidenav} on:click|self={showHideSidebar} class="links sm">
+    <ul id="sidenav">
+      <li class:active={segment === "explore"} on:click={showHideSidebar}>
+        <a href="explore">Explore</a>
+      </li>
+      <li id="categories">
+        <a href="#!" on:click={showHideMenu}>Categories</a>
+        <div class="categories" id="menu-items">
+          <ul>
+            <li
+              on:click={() => {
+                goto("products");
+                if (small) {
+                  showHideSidebar();
+                }
+              }}
+            >
+              <a href="products">All</a>
+            </li>
+            {#each categories as category (category._id)}
+              <li
+                on:click={() => {
+                  goto(`products/${category.name}`);
+                  if (small) {
+                    showHideSidebar();
+                  }
+                }}
+              >
+                <a href="products/{category.name}">{category.name}</a>
+              </li>
+            {/each}
+          </ul>
+        </div>
+      </li>
+      <li class:active={segment === "men"} on:click={showHideSidebar}>
+        <a href="men">Men</a>
+      </li>
+      <li class:active={segment === "women"} on:click={showHideSidebar}>
+        <a href="women">Women</a>
+      </li>
+    </ul>
+  </div>
+{/if}
 
 <style>
   nav {
@@ -148,6 +256,7 @@
 
   .cart {
     position: relative;
+    display: flex;
   }
 
   .menu-trigger {
@@ -244,101 +353,3 @@
     }
   }
 </style>
-
-<nav>
-  <a href="/" id="logo">Tanaka</a>
-  <div class="menu-trigger sm" on:click={showHideSidebar}>
-    <i class="material-icons">menu</i>
-  </div>
-  {#if !small}
-    <div class="links lg">
-      <ul id="">
-        <li class:active={segment === 'explore'}>
-          <a href="explore">Explore</a>
-        </li>
-        <li id="categories">
-          <a href="#!" on:click={showHideMenu}>Categories</a>
-          <div class="categories" id="menu-items">
-            <ul>
-              <li
-                on:click={() => {
-                  goto('products');
-                  if (small) {
-                    showHideSidebar();
-                  } else showHideMenu();
-                }}>
-                <a href="products">All</a>
-              </li>
-              {#each categories as category (category._id)}
-                <li
-                  on:click={() => {
-                    goto(`products/${category.name}`);
-                    if (small) {
-                      showHideSidebar();
-                    } else showHideMenu();
-                  }}>
-                  <a href="products/{category.name}">{category.name}</a>
-                </li>
-              {/each}
-            </ul>
-          </div>
-        </li>
-        <li class:active={segment === 'men'}><a href="men">Men</a></li>
-        <li class:active={segment === 'women'}><a href="women">Women</a></li>
-      </ul>
-    </div>
-  {/if}
-  <div class="cart">
-    <a href="/cart">
-      <div id="basket">
-        <div class="material-icons">shopping_bag</div>
-        {#if $cartStore.products.length > 0}
-          <div class="counter">{$cartStore.products.length}</div>
-        {/if}
-      </div>
-    </a>
-  </div>
-</nav>
-
-{#if small}
-  <div class:active={sidenav} on:click|self={showHideSidebar} class="links sm">
-    <ul id="sidenav">
-      <li class:active={segment === 'explore'} on:click={showHideSidebar}>
-        <a href="explore">Explore</a>
-      </li>
-      <li id="categories">
-        <a href="#!" on:click={showHideMenu}>Categories</a>
-        <div class="categories" id="menu-items">
-          <ul>
-            <li
-              on:click={() => {
-                goto('products');
-                if (small) {
-                  showHideSidebar();
-                }
-              }}>
-              <a href="products">All</a>
-            </li>
-            {#each categories as category (category._id)}
-              <li
-                on:click={() => {
-                  goto(`products/${category.name}`);
-                  if (small) {
-                    showHideSidebar();
-                  }
-                }}>
-                <a href="products/{category.name}">{category.name}</a>
-              </li>
-            {/each}
-          </ul>
-        </div>
-      </li>
-      <li class:active={segment === 'men'} on:click={showHideSidebar}>
-        <a href="men">Men</a>
-      </li>
-      <li class:active={segment === 'women'} on:click={showHideSidebar}>
-        <a href="women">Women</a>
-      </li>
-    </ul>
-  </div>
-{/if}
