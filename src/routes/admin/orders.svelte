@@ -60,14 +60,14 @@
     <div class="body">
       {#each orders as order (order._id)}
         <div class="grid product">
-          <div>{order?.customer?.name}</div>
-          <div>{order?.customer?.email}</div>
-          <div>{order?.customer?.phone}</div>
+          <div>{order.customer.name}</div>
+          <div>{order.customer.email}</div>
+          <div>{order.customer.phone}</div>
           <div>{order.status}</div>
           <div>
-            {#each order?.products as product (product._id)}
+            {#each order.products as product (product._id)}
               <div>
-                {order?.quantities[product._id]} * {product.name}
+                {order.quantities[product._id]} * {product.name}
               </div>
             {/each}
           </div>
