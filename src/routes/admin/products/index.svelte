@@ -3,8 +3,9 @@
     deleteProduct,
     getProducts,
   } from "../../../services/product.service";
+  import { getId } from "../../../services/util";
   import { productStore } from "../../../store/products";
-  import { success, danger } from "svelte-toasty";
+  import { toasts } from "../../../store/toasts";
 
   const deleteProd = async (id: string) => {
     let del = confirm("Do you want to delete this product?");
@@ -13,14 +14,18 @@
     try {
       let res = await deleteProduct(id);
       if (res) {
-        success("Product deleted successfully", 2000);
+        toasts.toast({
+          id: getId(),
+          text: "Product deleted successfully",
+          type: "s",
+        });
         res = await getProducts();
         if (res.products) {
           productStore.initProducts(res.products);
         }
       }
     } catch (err) {
-      danger("Error deleting product", 2000);
+      toasts.toast({ id: getId(), text: "Error deleting product", type: "d" });
       // console.log(error);
     }
   };

@@ -5,9 +5,10 @@
     editProduct,
     getProducts,
   } from "../../services/product.service";
+  import { getId } from "../../services/util";
   import { productStore } from "../../store/products";
+  import { toasts } from "../../store/toasts";
   import Loader from "../loader.svelte";
-  import { success, warning } from "svelte-toasty";
 
   export let toEdit: Product;
   export let edit: boolean;
@@ -54,8 +55,18 @@
       if (edit) data = await editProduct(product._id, formData);
       else data = await createProduct(formData);
       if (data) {
-        if (edit) success("Product edited successfully", 2000);
-        else success("Product created successfully", 2000);
+        if (edit)
+          toasts.toast({
+            id: getId(),
+            text: "Product edited successfully",
+            type: "s",
+          });
+        else
+          toasts.toast({
+            id: getId(),
+            text: "Product created successfully",
+            type: "s",
+          });
 
         product = {};
         category = "";
@@ -67,8 +78,14 @@
       }
       load = false;
     } catch (error) {
-      if (edit) warning("Error editing product", 2000);
-      else warning("Error creating product", 2000);
+      if (edit)
+        toasts.toast({ id: getId(), text: "Error editing product", type: "w" });
+      else
+        toasts.toast({
+          id: getId(),
+          text: "Error creating product",
+          type: "w",
+        });
       load = false;
       errors = error;
     }
@@ -78,6 +95,10 @@
 {#if load}
   <Loader />
 {/if}
+
+<!-- <ToastContainer toasts={$toasts} placement="top-right" let:data>
+  <FlatToast {data} />
+</ToastContainer> -->
 
 <main>
   <form on:submit={submit}>
