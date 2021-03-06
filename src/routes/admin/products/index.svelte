@@ -78,7 +78,7 @@
               </span>
             {/each}
           </div>
-          <div>{product?.category?.name}</div>
+          <div>{product.category?.name}</div>
           <div>
             <a href="/admin/products/edit/{product._id}"
               ><i class="material-icons">edit</i></a
