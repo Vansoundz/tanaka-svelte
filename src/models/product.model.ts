@@ -24,7 +24,7 @@ interface Category {
 interface Order {
   _id?: string;
   customer?: Customer;
-  products?: Product[];
+  products?: Product[] | string[];
   // when placcing an order convert to products
   selected?: string[];
   quantities?: object;
