@@ -15,7 +15,7 @@
   let category: string;
 
   let product: Product = {};
-  let errors;
+  let errors = [];
   let load = false;
 
   let files: FileList;
@@ -114,10 +114,10 @@
         <label for="name">Name</label>
       </div>
       <div><input type="text" bind:value={product.name} /></div>
-      {#if errors?.find((e) => e.param === "name")}
+      {#if errors.find((e) => e.param === "name")}
         <div class="errors">
           <span />
-          <div class="error">{errors?.find((e) => e.param === "name").msg}</div>
+          <div class="error">{errors.find((e) => e.param === "name").msg}</div>
         </div>
       {/if}
     </div>
@@ -126,11 +126,11 @@
         <label for="price">Price</label>
       </div>
       <div><input type="number" bind:value={product.price} /></div>
-      {#if errors?.find((e) => e.param === "price")}
+      {#if errors.find((e) => e.param === "price")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "price").msg}
+            {errors.find((e) => e.param === "price").msg}
           </div>
         </div>
       {/if}
@@ -140,11 +140,11 @@
         <label for="quantity">Quantity</label>
       </div>
       <div><input type="number" bind:value={product.quantity} /></div>
-      {#if errors?.find((e) => e.param === "quantity")}
+      {#if errors.find((e) => e.param === "quantity")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "quantity").msg}
+            {errors.find((e) => e.param === "quantity").msg}
           </div>
         </div>
       {/if}
@@ -154,11 +154,11 @@
         <label for="quantity">Sizes</label>
       </div>
       <div><input type="text" bind:value={product.sizes} /></div>
-      {#if errors?.find((e) => e.param === "sizes")}
+      {#if errors.find((e) => e.param === "sizes")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "sizes").msg}
+            {errors.find((e) => e.param === "sizes").msg}
           </div>
         </div>
       {/if}
@@ -170,11 +170,11 @@
       <div>
         <textarea bind:value={product.description} rows="2" />
       </div>
-      {#if errors?.find((e) => e.param === "description")}
+      {#if errors.find((e) => e.param === "description")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "description").msg}
+            {errors.find((e) => e.param === "description").msg}
           </div>
         </div>
       {/if}
@@ -191,11 +191,11 @@
           {/each}
         </select>
       </div>
-      {#if errors?.find((e) => e.param === "category")}
+      {#if errors.find((e) => e.param === "category")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "category").msg}
+            {errors.find((e) => e.param === "category").msg}
           </div>
         </div>
       {/if}
@@ -246,11 +246,11 @@
           />
         {/if}
       </div>
-      {#if errors?.find((e) => e.param === "image")}
+      {#if errors.find((e) => e.param === "image")}
         <div class="errors">
           <span />
           <div class="error">
-            {errors?.find((e) => e.param === "image").msg}
+            {errors.find((e) => e.param === "image").msg}
           </div>
         </div>
       {/if}
