@@ -15,12 +15,16 @@
 
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Order } from "../../models/product.model";
+  import type { Order, Product } from "../../models/product.model";
   import Loader from "../../components/loader.svelte";
   import { getOrders } from "../../services/order.service";
 
+  interface IOrder extends Order {
+    products: Product[];
+  }
+
   let loading = false;
-  export let orders: Order[] = [];
+  export let orders: IOrder[] = [];
 
   onMount(async () => {
     if (!orders.length) {
