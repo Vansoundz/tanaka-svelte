@@ -20,7 +20,8 @@ body {
 }
 
 a,
-button {
+button,
+i {
   cursor: pointer;
 }
 

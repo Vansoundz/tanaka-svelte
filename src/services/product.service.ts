@@ -61,9 +61,33 @@ const createProduct = async (product: FormData) => {
     return data;
   } catch (error) {
     if (error.response) {
-      throw new Error(error.response.data.errors);
+      throw error.response.data.errors;
     }
     throw `Error creating product`;
+  }
+};
+
+const editProduct = async (id: string, product: FormData) => {
+  try {
+    let data = (await productApi.editProduct(id, product)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.errors;
+    }
+    throw `Error editing product`;
+  }
+};
+
+const deleteProduct = async (id: string) => {
+  try {
+    let data = (await productApi.deleteProduct(id)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.errors;
+    }
+    throw `Error deleting product`;
   }
 };
 
@@ -73,4 +97,6 @@ export {
   getCategories,
   getProductsByCategory,
   createProduct,
+  deleteProduct,
+  editProduct,
 };

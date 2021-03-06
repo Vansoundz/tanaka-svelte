@@ -1,11 +1,17 @@
 <script lang="ts">
   import type { Product } from "../../models/product.model";
-  import { createProduct } from "../../services/product.service";
+  import {
+    createProduct,
+    editProduct,
+    getProducts,
+  } from "../../services/product.service";
   import { productStore } from "../../store/products";
   import Loader from "../loader.svelte";
+  import { success, warning } from "svelte-toasty";
 
   export let toEdit: Product;
   export let edit: boolean;
+  let category: string;
 
   let product: Product = {};
   let errors;
@@ -16,30 +22,53 @@
   $: {
     if (toEdit && edit) {
       product = toEdit;
+      category = product.category._id;
     }
   }
 
   const submit = async (e: Event) => {
     e.preventDefault();
+
+    if (!category) return;
+
     try {
       load = true;
       let formData: FormData = new FormData();
 
-      console.log(Object.keys(product));
+      // console.log(Object.keys(product));
+      //
 
       for (let key of Object.keys(product)) {
-        if (product[key]) {
+        if (product[key] && key !== "category") {
           formData.append(key, product[key]);
         }
       }
 
+      formData.append("category", category);
+
       if (files) {
         formData.append("image", files[0]);
       }
-      let data = await createProduct(formData);
+
+      let data;
+      if (edit) data = await editProduct(product._id, formData);
+      else data = await createProduct(formData);
+      if (data) {
+        if (edit) success("Product edited successfully", 2000);
+        else success("Product created successfully", 2000);
+
+        product = {};
+        category = "";
+        files = null;
+        let res = await getProducts();
+        if (res.products) {
+          productStore.initProducts(res.products);
+        }
+      }
       load = false;
-      console.log(data);
     } catch (error) {
+      if (edit) warning("Error editing product", 2000);
+      else warning("Error creating product", 2000);
       load = false;
       errors = error;
     }
@@ -134,7 +163,7 @@
         <label for="category">Category</label>
       </div>
       <div>
-        <select bind:value={product.category}>
+        <select bind:value={category}>
           <option disabled value={undefined}>Select category</option>
           {#each $productStore.categories as cat (cat._id)}
             <option value={cat._id}>{cat.name}</option>
@@ -232,16 +261,13 @@
     width: 100%;
   }
 
-  /* .fields,
-  .errors {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
+  .error {
+    margin-top: 4px;
+    background: #e69f9f47;
+    padding: 0 4px;
+    color: red;
+    font-weight: 400;
   }
-
-  .fields {
-    align-items: center;
-    margin-top: 16px;
-  } */
 
   .img-file {
     position: relative;

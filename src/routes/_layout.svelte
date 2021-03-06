@@ -20,6 +20,7 @@
   import { onMount } from "svelte";
   import { auth } from "../store/auth";
   import { initAuth } from "../services/auth.service";
+  import { ToastContainer } from "svelte-toasty";
 
   NProgress.configure({
     // minimum: 0.16,
@@ -67,6 +68,7 @@
 <Nav {segment} />
 
 <main>
+  <ToastContainer />
   <slot />
 </main>
 

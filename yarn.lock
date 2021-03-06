@@ -2058,6 +2058,11 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.3.0:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
+svelte-toasty@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/svelte-toasty/-/svelte-toasty-1.1.1.tgz#3e3d272021506fc70cd940dae8b043637a964c4d"
+  integrity sha512-CwJnq6GzACfckQH04DeG1YTa1JW4ILBxqC3PCOtrsx9ir7m/nJcTOyG/0MQdZdjA0Tr7f1RSQOFjFA30xQvbIA==
+
 svelte@^3.17.3:
   version "3.29.7"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.29.7.tgz#e254eb2d0d609ce0fd60f052d444ac4a66d90f7d"

@@ -20,7 +20,8 @@
     "nprogress": "^0.2.0",
     "polka": "next",
     "sirv": "^1.0.0",
-    "svelte-chartjs": "^1.0.1"
+    "svelte-chartjs": "^1.0.1",
+    "svelte-toasty": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

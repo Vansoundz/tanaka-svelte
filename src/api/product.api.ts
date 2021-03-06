@@ -20,4 +20,14 @@ export default {
       headers: authHeader(),
     });
   },
+  editProduct(id: string, product: FormData) {
+    return Axios.patch(`${backend}/api/products/${id}`, product, {
+      headers: authHeader(),
+    });
+  },
+  deleteProduct(id: string) {
+    return Axios.delete(`${backend}/api/products/${id}`, {
+      headers: authHeader(),
+    });
+  },
 };
