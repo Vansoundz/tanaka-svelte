@@ -10,6 +10,26 @@
   };
 </script>
 
+<div class="item">
+  <div class="s-image"><img src={product.image} alt="some" /></div>
+  <div class="details">
+    <div class="name">{product.name}</div>
+    <div class="price">Kshs {product.price}</div>
+  </div>
+  <div class="explore">
+    <span on:click={() => goto(`products/product/${product._id}`)}>
+      <a preload="true" href={`products/product/${product._id}`}>View</a></span
+    >
+    <span on:click={() => cartStore.addToCart(product)}>
+      {#if isAdded()}
+        <div>Added</div>
+      {:else}
+        <div>Add to basket</div>
+      {/if}
+    </span>
+  </div>
+</div>
+
 <style>
   .item {
     min-height: 300px;
@@ -34,7 +54,7 @@
 
   .explore {
     width: 100%;
-    background: orange;
+    background: var(--yellow);
     text-align: center;
     padding: 8px 16px;
     cursor: pointer;
@@ -47,7 +67,7 @@
     padding: 8px 16px;
   }
   .explore span:first-child {
-    background: mediumpurple;
+    background: var(--black);
   }
   .explore span > * {
     color: #fff;
@@ -78,22 +98,3 @@
     font-weight: bold;
   }
 </style>
-
-<div class="item">
-  <div class="s-image"><img src={product.image} alt="some" /></div>
-  <div class="details">
-    <div class="name">{product.name}</div>
-    <div class="price">Kshs {product.price}</div>
-  </div>
-  <div class="explore">
-    <span on:click={() => goto(`products/product/${product._id}`)}>
-      <a preload="true" href={`products/product/${product._id}`}>View</a></span>
-    <span on:click={() => cartStore.addToCart(product)}>
-      {#if isAdded()}
-        <div>Added</div>
-      {:else}
-        <div>Add to basket</div>
-      {/if}
-    </span>
-  </div>
-</div>

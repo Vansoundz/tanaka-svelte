@@ -43,6 +43,90 @@
   });
 </script>
 
+<svelte:head>
+  <title>Welcome: Tanaka collections</title>
+</svelte:head>
+
+<div class="display">
+  <div>
+    <div class="image glide" id="imgs">
+      <!-- <img id="img-show" transition:fly={{ y: 100 }} alt="" /> -->
+      <div class="glide__track" data-glide-el="track">
+        <ul class=" glide__slides">
+          {#if $productStore.products.length > 0}
+            {#each $productStore.products.slice(0, 5) as product (product._id)}
+              <li class="glide__slide center">
+                <img src={product.image} alt="" />
+              </li>
+              <!-- <li
+                style="background: url({product.image})"
+                class="item glide__slide">
+                <div
+                  on:click={() => goto(`products/${product.category.name}`)}
+                  class="explore">
+                  Explore
+                </div>
+              </li> -->
+            {/each}
+          {:else}
+            {#each images as image (image)}
+              <li class="glide__slide center"><img src={image} alt="" /></li>
+            {/each}
+          {/if}
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h3>All your favorites in one place</h3>
+    </div>
+  </div>
+</div>
+<div class="slides-container">
+  <div class="glide" id="showcase">
+    <div class="glide__track" data-glide-el="track">
+      <ul class=" glide__slides">
+        {#if $productStore.products.length > 0}
+          {#each $productStore.products.slice(0, 5) as product (product._id)}
+            <li
+              style="background: url({product.image})"
+              class="item glide__slide"
+            >
+              <div
+                on:click={() => goto(`products/${product.category.name}`)}
+                class="explore"
+              >
+                Explore
+              </div>
+            </li>
+          {/each}
+        {:else}
+          {#each images as image (image)}
+            <div style="background: url({image})" class="item glide__slide">
+              <div on:click={() => goto("products")} class="explore">
+                Explore
+              </div>
+            </div>
+          {/each}
+        {/if}
+      </ul>
+    </div>
+  </div>
+</div>
+<div>
+  <h3>Trending</h3>
+  <div />
+</div>
+
+<!-- 
+<div class="glide">
+  <div data-glide-el="track" class="glide__track">
+    <ul class="glide__slides">
+      <li class="glide__slide" />
+      <li class="glide__slide" />
+      <li class="glide__slide" />
+    </ul>
+  </div>
+</div> -->
 <style>
   .display > div {
     display: flex;
@@ -112,7 +196,7 @@
 
   .explore {
     width: 100%;
-    background: orange;
+    background: var(--yellow);
     text-align: center;
     padding: 8px 16px;
     cursor: pointer;
@@ -123,81 +207,3 @@
     justify-content: center;
   }
 </style>
-
-<svelte:head>
-  <title>Welcome: Tanaka collections</title>
-</svelte:head>
-
-<div class="display">
-  <div>
-    <div class="image glide" id="imgs">
-      <!-- <img id="img-show" transition:fly={{ y: 100 }} alt="" /> -->
-      <div class="glide__track" data-glide-el="track">
-        <ul class=" glide__slides">
-          {#if $productStore.products.length > 0}
-            {#each $productStore.products.slice(0, 5) as product (product._id)}
-              <li class="glide__slide center">
-                <img src={product.image} alt="" />
-              </li>
-              <!-- <li
-                style="background: url({product.image})"
-                class="item glide__slide">
-                <div
-                  on:click={() => goto(`products/${product.category.name}`)}
-                  class="explore">
-                  Explore
-                </div>
-              </li> -->
-            {/each}
-          {:else}
-            {#each images as image (image)}
-              <li class="glide__slide center"><img src={image} alt="" /></li>
-            {/each}
-          {/if}
-        </ul>
-      </div>
-    </div>
-    <div>
-      <h3>All your favorites in one place</h3>
-    </div>
-  </div>
-</div>
-<div class="slides-container">
-  <div class="glide" id="showcase">
-    <div class="glide__track" data-glide-el="track">
-      <ul class=" glide__slides">
-        {#if $productStore.products.length > 0}
-          {#each $productStore.products.slice(0, 5) as product (product._id)}
-            <li
-              style="background: url({product.image})"
-              class="item glide__slide">
-              <div
-                on:click={() => goto(`products/${product.category.name}`)}
-                class="explore">
-                Explore
-              </div>
-            </li>
-          {/each}
-        {:else}
-          {#each images as image (image)}
-            <div style="background: url({image})" class="item glide__slide">
-              <div on:click={() => goto('products')} class="explore">
-                Explore
-              </div>
-            </div>
-          {/each}
-        {/if}
-      </ul>
-    </div>
-  </div>
-</div>
-<!-- 
-<div class="glide">
-  <div data-glide-el="track" class="glide__track">
-    <ul class="glide__slides">
-      <li class="glide__slide" />
-      <li class="glide__slide" />
-      <li class="glide__slide" />
-    </ul>
-  </div>
-</div> -->

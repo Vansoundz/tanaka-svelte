@@ -1,6 +1,10 @@
 <script lang="ts">
 </script>
 
+<main>
+  <div class="loader" />
+</main>
+
 <style>
   main {
     position: fixed;
@@ -18,7 +22,7 @@
   .loader {
     border-radius: 50%;
     animation: load 2s ease infinite forwards;
-    background: purple;
+    background: var(--black);
   }
 
   @keyframes load {
@@ -53,7 +57,3 @@
     }
   }
 </style>
-
-<main>
-  <div class="loader" />
-</main>

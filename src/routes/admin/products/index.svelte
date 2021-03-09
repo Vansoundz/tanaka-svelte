@@ -1,6 +1,8 @@
 <script lang="ts">
   import {
+    deleteCategory,
     deleteProduct,
+    getCategories,
     getProducts,
   } from "../../../services/product.service";
   import { getId } from "../../../services/util";
@@ -29,20 +31,77 @@
       // console.log(error);
     }
   };
+
+  const deleteCat = async (id: string) => {
+    let del = confirm("Do you want to delete this category?");
+    if (!del) return;
+
+    try {
+      let res = await deleteCategory(id);
+      if (res) {
+        toasts.toast({
+          id: getId(),
+          text: "Category deleted successfully",
+          type: "s",
+        });
+        res = await getCategories();
+        if (res.categories) {
+          productStore.initCategories(res.categories);
+        }
+      }
+    } catch (err) {
+      toasts.toast({ id: getId(), text: "Error deleting category", type: "d" });
+      // console.log(error);
+    }
+  };
 </script>
 
 <main>
   <div class="first">
-    <button class="add-product">
-      <i class="material-icons">add</i>
-      <span>Add Category</span>
-    </button>
-    <a href="/admin/products/create"
-      ><button class="add-product">
+    <a href="/admin/products/create-category">
+      <button class="add-product">
+        <i class="material-icons">add</i>
+        <span>Add Category</span>
+      </button>
+    </a>
+  </div>
+  <h4>Categories</h4>
+  <div class="categories">
+    <div class="header grid">
+      <div>#</div>
+      <div>Name</div>
+      <div>Edit</div>
+      <div>Delete</div>
+    </div>
+    <div class="body">
+      {#each $productStore.categories as item (item._id)}
+        <div class="grid category">
+          <div>
+            {item._id}
+          </div>
+          <div>{item.name}</div>
+
+          <div>
+            <a href="/admin/products/edit/category/{item._id}">
+              <i class="material-icons"> edit</i></a
+            >
+          </div>
+          <div>
+            <i on:click={() => deleteCat(item._id)} class="material-icons">
+              delete
+            </i>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+  <div class="first">
+    <a href="/admin/products/create">
+      <button class="add-product">
         <i class="material-icons">add</i>
         <span>Add Product</span>
-      </button></a
-    >
+      </button>
+    </a>
   </div>
   <h4>Products</h4>
   <div class="products">
@@ -111,14 +170,14 @@
     align-items: center;
     justify-content: center;
     width: 140px;
-    border: 1px solid purple;
-    color: purple;
+    border: 1px solid var(--black);
+    color: var(--black);
     padding: 8px;
     margin-left: 8px;
   }
 
   button:hover {
-    background: purple;
+    background: var(--black);
   }
 
   button:hover > * {
@@ -132,5 +191,9 @@
     display: grid;
     grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
+  }
+
+  .categories .grid {
+    grid-template-columns: 2fr 2fr 1fr 1fr;
   }
 </style>

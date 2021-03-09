@@ -3,11 +3,13 @@
 </script>
 
 <main>
-  <h4>Create product</h4>
   <div class="create">
     <CreateEdit />
   </div>
 </main>
 
 <style>
+  .create {
+    padding: 0 0 32px;
+  }
 </style>

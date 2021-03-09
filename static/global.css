@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap");
 /* @import url("https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.ttf"); */
+
+:root {
+  --yellow: #fcb73b;
+  --black: #1e1e19;
+  --beige: beige;
+  --bisque: bisque;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -27,9 +35,15 @@ i {
 
 #nprogress .bar {
   height: 4px !important;
-  background: purple !important;
+  background: var(--yellow) !important;
 }
 
 #nprogress .peg {
   box-shadow: unset !important;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid transparent;
 }

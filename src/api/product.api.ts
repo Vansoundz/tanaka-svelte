@@ -30,4 +30,27 @@ export default {
       headers: authHeader(),
     });
   },
+  deleteCategory(id: string) {
+    return Axios.delete(`${backend}/api/products/categories/${id}`, {
+      headers: authHeader(),
+    });
+  },
+  createCategory(name: string) {
+    return Axios.post(
+      `${backend}/api/products/categories`,
+      { name },
+      {
+        headers: authHeader(),
+      }
+    );
+  },
+  editCategory(id: string, name: string) {
+    return Axios.patch(
+      `${backend}/api/products/categories/${id}`,
+      { name },
+      {
+        headers: authHeader(),
+      }
+    );
+  },
 };

@@ -31,6 +31,111 @@
   };
 </script>
 
+{#if loading}
+  <Loader />
+{/if}
+<div class="container">
+  <div>
+    <h3>Cart</h3>
+  </div>
+  <main>
+    <div class="cart">
+      {#if $cartStore.products.length > 0}
+        <div class="customer">
+          <h4>Shipping info</h4>
+          <form on:submit|preventDefault={completeOrder}>
+            <div>
+              <div><label for="name"> Name: </label></div>
+              <div>
+                <input
+                  bind:value={customer.name}
+                  class="input"
+                  type="text"
+                  id="name"
+                />
+              </div>
+            </div>
+            <div>
+              <div><label for="email"> Email: </label></div>
+              <div>
+                <input
+                  bind:value={customer.email}
+                  class="input"
+                  type="email"
+                  id="email"
+                />
+              </div>
+            </div>
+            <div>
+              <div><label for="phone"> Phone: </label></div>
+              <div>
+                <input
+                  bind:value={customer.phone}
+                  class="input"
+                  type="tel"
+                  id="phone"
+                />
+              </div>
+            </div>
+            <div>
+              <div><label for="location"> Address: </label></div>
+              <div>
+                <input
+                  bind:value={customer.address}
+                  class="input"
+                  type="text"
+                  id="location"
+                />
+              </div>
+            </div>
+            <div>
+              <div>
+                <h4>Total: {total}</h4>
+              </div>
+            </div>
+            <div><button class="submit">Submit</button></div>
+          </form>
+        </div>
+      {/if}
+      <div class="products">
+        {#if $cartStore.products.length > 0}
+          {#each $cartStore.products as product (product._id)}
+            <div class="cart-item" animate:flip={{ duration: 200 }}>
+              <div class="cart-image"><img src={product.image} alt="" /></div>
+              <div class="c-info">
+                <div class="cm-info">
+                  <div class="c-title">{product.name}</div>
+                  <div class="c-price">Kshs {product.price}</div>
+                </div>
+                <div class="quantity">
+                  <button on:click={() => cartStore.removeItem(product)}>
+                    <i class="material-icons">remove</i>
+                  </button>
+                  <span>{product.local_quantity}</span>
+                  <button on:click={() => cartStore.addToCart(product)}
+                    ><i class="material-icons">add</i></button
+                  >
+                </div>
+              </div>
+            </div>
+          {/each}
+        {:else}
+          <div class="feedback">
+            {#if !submitted}
+              <h4>You have not added any product</h4>
+              <a href="explore" class="explore">Go shopping</a>
+            {:else}
+              <i class="material-icons tick">check_cirtcle</i>
+              <h4>Thank you for shopping with us</h4>
+              <a href="explore" class="explore">Continue shopping</a>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+  </main>
+</div>
+
 <style>
   .container {
     padding: 1.5em 16px;
@@ -67,7 +172,7 @@
   }
 
   input:focus {
-    border: 1px solid purple;
+    border: 1px solid var(--black);
   }
 
   .submit {
@@ -147,14 +252,14 @@
   .explore {
     cursor: pointer;
     width: 140px;
-    border: 1px solid purple;
-    color: purple;
+    border: 1px solid var(--black);
+    color: var(--black);
     text-align: center;
     padding: 8px;
   }
 
   .explore:hover {
-    background: purple;
+    background: var(--black);
     color: white;
   }
 
@@ -163,103 +268,3 @@
     flex-direction: column;
   }
 </style>
-
-{#if loading}
-  <Loader />
-{/if}
-<div class="container">
-  <div>
-    <h3>Cart</h3>
-  </div>
-  <main>
-    <div class="cart">
-      {#if $cartStore.products.length > 0}
-        <div class="customer">
-          <h4>Shipping info</h4>
-          <form on:submit|preventDefault={completeOrder}>
-            <div>
-              <div><label for="name"> Name: </label></div>
-              <div>
-                <input
-                  bind:value={customer.name}
-                  class="input"
-                  type="text"
-                  id="name" />
-              </div>
-            </div>
-            <div>
-              <div><label for="email"> Email: </label></div>
-              <div>
-                <input
-                  bind:value={customer.email}
-                  class="input"
-                  type="email"
-                  id="email" />
-              </div>
-            </div>
-            <div>
-              <div><label for="phone"> Phone: </label></div>
-              <div>
-                <input
-                  bind:value={customer.phone}
-                  class="input"
-                  type="tel"
-                  id="phone" />
-              </div>
-            </div>
-            <div>
-              <div><label for="location"> Address: </label></div>
-              <div>
-                <input
-                  bind:value={customer.address}
-                  class="input"
-                  type="text"
-                  id="location" />
-              </div>
-            </div>
-            <div>
-              <div>
-                <h4>Total: {total}</h4>
-              </div>
-            </div>
-            <div><button class="submit">Submit</button></div>
-          </form>
-        </div>
-      {/if}
-      <div class="products">
-        {#if $cartStore.products.length > 0}
-          {#each $cartStore.products as product (product._id)}
-            <div class="cart-item" animate:flip={{ duration: 200 }}>
-              <div class="cart-image"><img src={product.image} alt="" /></div>
-              <div class="c-info">
-                <div class="cm-info">
-                  <div class="c-title">{product.name}</div>
-                  <div class="c-price">Kshs {product.price}</div>
-                </div>
-                <div class="quantity">
-                  <button on:click={() => cartStore.removeItem(product)}>
-                    <i class="material-icons">remove</i>
-                  </button>
-                  <span>{product.local_quantity}</span>
-                  <button on:click={() => cartStore.addToCart(product)}><i
-                      class="material-icons">add</i></button>
-                </div>
-              </div>
-            </div>
-          {/each}
-        {:else}
-          <div class="feedback">
-            {#if !submitted}
-              <h4>You have not added any product</h4>
-              <a href="explore" class="explore">Go shopping</a>
-            {:else}
-              <i class="material-icons tick">check_cirtcle</i>
-              <h4>Thank you for shopping with us</h4>
-              <a href="explore" class="explore">Continue shopping</a>
-            {/if}
-          </div>
-        {/if}
-      </div>
-    </div>
-  </main>
-</div>

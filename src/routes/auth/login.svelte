@@ -2,9 +2,11 @@
   import { login } from "../../services/auth.service";
   import { auth } from "../../store/auth";
   import { goto } from "@sapper/app";
+  import Loader from "../../components/loader.svelte";
 
   let user: { email: ""; password: "" } = { email: "", password: "" };
   let errors: { msg: string; param: string }[] = [];
+  let loading = false;
 
   $: {
     if ($auth.isLoggedIn) {
@@ -15,16 +17,23 @@
   const submit = async (e: Event) => {
     e.preventDefault();
     try {
+      loading = true;
       let res = await login(user);
       if (res.token) {
         localStorage.setItem("__tanaka", res.token);
         auth.login(res.user);
       }
+      loading = false;
     } catch (error) {
+      loading = false;
       errors = error;
     }
   };
 </script>
+
+{#if loading}
+  <Loader />
+{/if}
 
 <main>
   <form on:submit={submit} novalidate>
@@ -91,7 +100,7 @@
   }
 
   input:focus {
-    border: 1px solid rebeccapurple;
+    border: 1px solid var(--black);
   }
 
   button {
@@ -99,7 +108,7 @@
     display: block;
     margin: 8px auto;
     cursor: pointer;
-    background: rebeccapurple;
+    background: var(--black);
     color: white;
   }
 

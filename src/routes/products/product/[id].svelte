@@ -25,6 +25,60 @@
   };
 </script>
 
+<div class="product-container">
+  <div class="product-wrapper">
+    {#if product}
+      <div class="product">
+        <div class="show-images">
+          <div class="show-image"><img src={current} alt="" /></div>
+          <div class="more-images">
+            {#each product.images as image (image)}
+              <div
+                on:click={() => (current = image)}
+                class="more-image"
+                style="background: url({image})"
+              />
+            {/each}
+          </div>
+        </div>
+        <div class="info">
+          <div class="title">{product.name}</div>
+          <div class="price">Kshs {product.price}</div>
+          <div class="description">
+            <div>{product.description || "Proudct description"}</div>
+          </div>
+          <div class="sizes">
+            {#if product.sizes}
+              {#each product.sizes as size (size)}
+                <div class="size">{size}</div>
+              {/each}
+            {/if}
+          </div>
+          <div class="add">
+            {#if isAdded()}
+              <div
+                on:click={() => cartStore.addToCart(product)}
+                class="add-to-cart"
+              >
+                Added
+              </div>
+            {:else}
+              <div
+                on:click={() => cartStore.addToCart(product)}
+                class="add-to-cart"
+              >
+                Add to basket
+              </div>
+            {/if}
+          </div>
+        </div>
+      </div>
+    {:else}
+      <div>Error</div>
+    {/if}
+  </div>
+</div>
+
 <style>
   .product-wrapper {
     padding: 1.5em 16px;
@@ -61,14 +115,14 @@
   .add-to-cart {
     cursor: pointer;
     width: 140px;
-    border: 1px solid purple;
-    color: purple;
+    border: 1px solid var(--black);
+    color: var(--black);
     text-align: center;
     padding: 8px;
   }
 
   .add-to-cart:hover {
-    background: purple;
+    background: var(--black);
     color: white;
   }
 
@@ -97,59 +151,8 @@
   .more-images > .more-image {
     width: 50px;
     height: 50px;
-    background: orange;
+    background: var(--yellow);
     margin-right: 16px;
     cursor: pointer;
   }
 </style>
-
-<div class="product-container">
-  <div class="product-wrapper">
-    {#if product}
-      <div class="product">
-        <div class="show-images">
-          <div class="show-image"><img src={current} alt="" /></div>
-          <div class="more-images">
-            {#each product.images as image (image)}
-              <div
-                on:click={() => (current = image)}
-                class="more-image"
-                style="background: url({image})" />
-            {/each}
-          </div>
-        </div>
-        <div class="info">
-          <div class="title">{product.name}</div>
-          <div class="price">Kshs {product.price}</div>
-          <div class="description">
-            <div>{product.description || 'Proudct description'}</div>
-          </div>
-          <div class="sizes">
-            {#if product.sizes}
-              {#each product.sizes as size (size)}
-                <div class="size">{size}</div>
-              {/each}
-            {/if}
-          </div>
-          <div class="add">
-            {#if isAdded()}
-              <div
-                on:click={() => cartStore.addToCart(product)}
-                class="add-to-cart">
-                Added
-              </div>
-            {:else}
-              <div
-                on:click={() => cartStore.addToCart(product)}
-                class="add-to-cart">
-                Add to basket
-              </div>
-            {/if}
-          </div>
-        </div>
-      </div>
-    {:else}
-      <div>Error</div>
-    {/if}
-  </div>
-</div>

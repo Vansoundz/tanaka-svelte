@@ -46,7 +46,9 @@
 </script>
 
 <nav>
-  <a href="/" id="logo">Tanaka</a>
+  <a href="/" id="logo">
+    <img src="/favicon.png" alt="logo" width="70" height="70" />
+  </a>
   <div class="menu-trigger sm" on:click={showHideSidebar}>
     <i class="material-icons">menu</i>
   </div>
@@ -155,7 +157,7 @@
 <style>
   nav {
     padding: 0 16px;
-    height: 60px;
+    height: 70px;
     border-bottom: 1px solid bisque;
     justify-content: space-between;
     position: sticky;
@@ -206,8 +208,8 @@
     position: absolute;
     width: 80%;
     height: 4px;
-    background: orange;
-    bottom: -18px;
+    background: var(--yellow);
+    bottom: -24px;
     left: 0;
   }
 
@@ -245,7 +247,7 @@
     top: -8px;
     font-weight: bold;
     color: #fff;
-    background: orange;
+    background: var(--yellow);
     text-align: center;
     font-size: 12px;
     right: -8px;

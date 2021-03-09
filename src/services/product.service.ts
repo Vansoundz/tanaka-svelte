@@ -90,6 +90,41 @@ const deleteProduct = async (id: string) => {
     throw `Error deleting product`;
   }
 };
+const deleteCategory = async (id: string) => {
+  try {
+    let data = (await productApi.deleteCategory(id)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.errors;
+    }
+    throw `Error deleting product`;
+  }
+};
+
+const createCategory = async (name: string) => {
+  try {
+    let data = (await productApi.createCategory(name)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.errors[0].msg;
+    }
+    throw `Error deleting product`;
+  }
+};
+
+const editCategory = async (id: string, name: string) => {
+  try {
+    let data = (await productApi.editCategory(id, name)).data;
+    return data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.errors[0].msg;
+    }
+    throw `Error deleting product`;
+  }
+};
 
 export {
   getProducts,
@@ -99,4 +134,7 @@ export {
   createProduct,
   deleteProduct,
   editProduct,
+  createCategory,
+  editCategory,
+  deleteCategory,
 };

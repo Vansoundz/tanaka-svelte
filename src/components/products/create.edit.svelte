@@ -5,7 +5,6 @@
     editProduct,
     getProducts,
   } from "../../services/product.service";
-  import { getId } from "../../services/util";
   import { productStore } from "../../store/products";
   import { toasts } from "../../store/toasts";
   import Loader from "../loader.svelte";
@@ -57,13 +56,11 @@
       if (data) {
         if (edit)
           toasts.toast({
-            id: getId(),
             text: "Product edited successfully",
             type: "s",
           });
         else
           toasts.toast({
-            id: getId(),
             text: "Product created successfully",
             type: "s",
           });
@@ -78,11 +75,9 @@
       }
       load = false;
     } catch (error) {
-      if (edit)
-        toasts.toast({ id: getId(), text: "Error editing product", type: "w" });
+      if (edit) toasts.toast({ text: "Error editing product", type: "w" });
       else
         toasts.toast({
-          id: getId(),
           text: "Error creating product",
           type: "w",
         });
@@ -151,7 +146,7 @@
     </div>
     <div>
       <div>
-        <label for="quantity">Sizes</label>
+        <label for="quantity">Sizes: (Separate by comma)</label>
       </div>
       <div><input type="text" bind:value={product.sizes} /></div>
       {#if errors.find((e) => e.param === "sizes")}
@@ -256,7 +251,13 @@
       {/if}
     </div>
     <div>
-      <button> Create </button>
+      <button>
+        {#if edit}
+          Edit
+        {:else}
+          Create
+        {/if}
+      </button>
     </div>
   </form>
 </main>
@@ -294,15 +295,10 @@
     position: relative;
   }
 
-  /* .img-file i {
-    position: absolute;
-    right: 0;
-  } */
-
   input:focus,
   select:focus,
   textarea:focus {
-    border: 1px solid rebeccapurple;
+    border: 1px solid var(--black);
   }
 
   button {
@@ -310,16 +306,7 @@
     display: block;
     margin: 8px auto;
     cursor: pointer;
-    background: rebeccapurple;
+    background: var(--black);
     color: white;
   }
-
-  /* .error {
-    margin-top: 4px;
-    background: #e69f9f47;
-    padding: 0 4px;
-    margin-left: 8px;
-    color: red;
-    font-weight: 400;
-  } */
 </style>

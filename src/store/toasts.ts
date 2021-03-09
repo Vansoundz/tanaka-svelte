@@ -1,7 +1,8 @@
 import { writable } from "svelte/store";
+import { getId } from "../services/util";
 
 interface Toast {
-  id: string;
+  id?: string;
   type: "s" | "d" | "w" | "i";
   text: string;
 }
@@ -12,6 +13,7 @@ const createStore = () => {
   return {
     subscribe,
     toast: (toast: Toast) => {
+      toast.id = getId();
       update((state) => ({ toasts: [...state.toasts, toast] }));
       setTimeout(() => {
         update((state) => ({

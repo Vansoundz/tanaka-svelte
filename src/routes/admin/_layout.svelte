@@ -24,6 +24,7 @@
         {#each links as link (link.name)}
           <li
             class:active={link.path === "/" ? !segment : link.name === segment}
+            on:click={() => goto(`admin${link.path}`)}
           >
             <a href="/admin{link.path}">{link.name}</a>
           </li>
@@ -60,10 +61,11 @@
     text-transform: capitalize;
     margin: 4px 0;
     padding: 4px 8px;
+    cursor: pointer;
   }
 
   li.active {
-    background: rebeccapurple;
+    background: var(--black);
   }
 
   li.active a {
