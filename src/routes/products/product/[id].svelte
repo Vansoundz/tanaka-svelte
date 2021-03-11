@@ -30,7 +30,9 @@
     {#if product}
       <div class="product">
         <div class="show-images">
-          <div class="show-image"><img src={current} alt="" /></div>
+          <div class="show-image">
+            <img src={current} alt="" height="400" width="300" />
+          </div>
           <div class="more-images">
             {#each product.images as image (image)}
               <div

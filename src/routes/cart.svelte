@@ -35,12 +35,51 @@
   <Loader />
 {/if}
 <div class="container">
-  <div>
-    <h3>Cart</h3>
-  </div>
   <main>
     <div class="cart">
-      {#if $cartStore.products.length > 0}
+      <div class="products">
+        {#if $cartStore.products.length > 0}
+          {#each $cartStore.products as product (product._id)}
+            <div class="cart-item" animate:flip={{ duration: 200 }}>
+              <div class="cart-image"><img src={product.image} alt="" /></div>
+              <!-- <div class="c-info"> -->
+              <div class="cm-info">
+                <div class="c-title">{product.name}</div>
+              </div>
+              <div class="c-price">Kshs {product.price}</div>
+              <div class="quantity">
+                <button on:click={() => cartStore.removeItem(product)}>
+                  <i class="material-icons">remove</i>
+                </button>
+                <span>{product.local_quantity}</span>
+                <button on:click={() => cartStore.addToCart(product)}
+                  ><i class="material-icons">add</i></button
+                >
+              </div>
+              <div class="c-price">
+                Kshs {product.price * product.local_quantity}
+                <!-- </div> -->
+              </div>
+            </div>
+          {/each}
+        {:else}
+          <div class="feedback">
+            {#if !submitted}
+              <h4>You have not added any product</h4>
+              <a href="explore" class="explore">Go shopping</a>
+            {:else}
+              <i class="material-icons tick">check_cirtcle</i>
+              <h4>Thank you for shopping with us</h4>
+              <a href="explore" class="explore">Continue shopping</a>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- {#if $cartStore.products.length > 0}
         <div class="customer">
           <h4>Shipping info</h4>
           <form on:submit|preventDefault={completeOrder}>
@@ -96,53 +135,14 @@
             <div><button class="submit">Submit</button></div>
           </form>
         </div>
-      {/if}
-      <div class="products">
-        {#if $cartStore.products.length > 0}
-          {#each $cartStore.products as product (product._id)}
-            <div class="cart-item" animate:flip={{ duration: 200 }}>
-              <div class="cart-image"><img src={product.image} alt="" /></div>
-              <div class="c-info">
-                <div class="cm-info">
-                  <div class="c-title">{product.name}</div>
-                  <div class="c-price">Kshs {product.price}</div>
-                </div>
-                <div class="quantity">
-                  <button on:click={() => cartStore.removeItem(product)}>
-                    <i class="material-icons">remove</i>
-                  </button>
-                  <span>{product.local_quantity}</span>
-                  <button on:click={() => cartStore.addToCart(product)}
-                    ><i class="material-icons">add</i></button
-                  >
-                </div>
-              </div>
-            </div>
-          {/each}
-        {:else}
-          <div class="feedback">
-            {#if !submitted}
-              <h4>You have not added any product</h4>
-              <a href="explore" class="explore">Go shopping</a>
-            {:else}
-              <i class="material-icons tick">check_cirtcle</i>
-              <h4>Thank you for shopping with us</h4>
-              <a href="explore" class="explore">Continue shopping</a>
-            {/if}
-          </div>
-        {/if}
-      </div>
-    </div>
-  </main>
-</div>
-
+      {/if} -->
 <style>
   .container {
     padding: 1.5em 16px;
   }
 
-  main,
-  .container > div:first-child {
+  main
+  /* .container > div:first-child  */ {
     margin: auto;
     display: block;
     max-width: 80%;
@@ -155,15 +155,15 @@
     align-items: flex-end;
   }
 
-  .customer {
+  /* .customer {
     min-width: 300px;
     background: #fff;
     padding: 16px;
     box-shadow: 0 0 8px #ddd;
     height: 100%;
-  }
+  } 
 
-  input {
+  /* input {
     margin: 8px 0;
     padding: 8px;
     border: 1px solid beige;
@@ -188,7 +188,7 @@
   .submit:hover {
     color: #fff;
     background-color: #f18c12;
-  }
+  } */
 
   .cart-item {
     background: #fff;
@@ -226,18 +226,26 @@
   .quantity {
     display: flex;
     align-items: center;
-    margin-top: 8px;
+    border: 1px solid #ddd;
   }
 
   .cart-item button {
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     width: 30px;
     text-align: center;
-    border-radius: 50%;
-    height: 30px;
+    /* border-radius: 50%; */
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .cart-item button:first-child {
+    border-right: 1px solid #ddd;
+  }
+
+  .cart-item button:last-child {
+    border-left: 1px solid #ddd;
   }
 
   .quantity > *:not(:last-child) {
