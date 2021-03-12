@@ -39,7 +39,18 @@
     <div class="cart">
       <div class="products">
         {#if $cartStore.products.length > 0}
-          {#each $cartStore.products as product (product._id)}
+          <h4 style="margin-bottom: 16px">Your Basket</h4>
+          <div
+            style="margin-bottom: 16px;padding: 8px; font-weight: bold"
+            class="cart-item"
+          >
+            <div>#</div>
+            <div>Name</div>
+            <div>Price</div>
+            <div>Action</div>
+            <div>Total</div>
+          </div>
+          {#each $cartStore.products as product (product._id + Math.random())}
             <div class="cart-item" animate:flip={{ duration: 200 }}>
               <div class="cart-image"><img src={product.image} alt="" /></div>
               <!-- <div class="c-info"> -->
@@ -75,6 +86,29 @@
           </div>
         {/if}
       </div>
+      {#if $cartStore.products.length > 0}
+        <div class="summary">
+          <h4>Cart summary</h4>
+          <div class="c-summary">
+            <div>
+              <h5>Subtotal</h5>
+              <h5>{total}</h5>
+            </div>
+            <div>
+              <h5>Shipping</h5>
+              <h5>{100}</h5>
+            </div>
+
+            <div>
+              <h5>Total</h5>
+              <h5>{total + 100}</h5>
+            </div>
+          </div>
+          <div>
+            <button class="btn"> Proceed to checkout </button>
+          </div>
+        </div>
+      {/if}
     </div>
   </main>
 </div>
@@ -151,8 +185,48 @@
   .cart {
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap-reverse;
-    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .summary {
+    min-width: 250px;
+    margin-top: 32px;
+    padding: 0 16px;
+  }
+
+  .c-summary {
+    background: #fff;
+    padding: 4px;
+    margin-top: 8px;
+  }
+
+  .c-summary > div {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.6;
+  }
+
+  .c-summary > div:nth-child(2) {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+
+  button {
+    background: var(--yellow);
+  }
+
+  .summary button {
+    margin: 16px auto;
+    display: block;
+    padding: 8px 24px;
+
+    font-weight: bold;
+  }
+
+  .summary button:hover {
+    background: transparent;
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
   }
 
   /* .customer {
@@ -193,35 +267,41 @@
   .cart-item {
     background: #fff;
     box-shadow: 0 0 8px #ddd;
-    display: flex;
+    display: grid;
     align-items: center;
     overflow: hidden;
     margin-bottom: 16px;
-    max-width: 350px;
-    min-width: 300px;
-    height: 70px;
+    max-width: 500px;
+    min-width: 290px;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    gap: 4px;
   }
 
-  .c-info {
+  /* .c-info {
     display: flex;
     justify-content: space-between;
     padding-right: 4px;
     width: 100%;
-  }
+  } */
 
   .c-title {
     font-weight: bold;
     text-overflow: ellipsis;
+    font-size: 14px;
+  }
+
+  .c-price {
+    font-size: 12px;
   }
 
   .cart-item img {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
   }
 
-  .cart-item .c-info {
+  /* .cart-item .c-info {
     margin-left: 16px;
-  }
+  } */
 
   .quantity {
     display: flex;
@@ -274,5 +354,11 @@
   .feedback {
     display: flex;
     flex-direction: column;
+  }
+
+  @media screen and (max-width: 600px) {
+    main {
+      max-width: 100%;
+    }
   }
 </style>

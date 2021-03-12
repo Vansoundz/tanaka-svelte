@@ -18,9 +18,11 @@
 
   export let product: Product;
   let current = product?.image;
+  let selected: string;
 
   $: isAdded = (): boolean => {
     let p = $cartStore.products.find((pr) => pr._id === product._id);
+    if (p?.size) selected = p.size;
     return p ? true : false;
   };
 </script>
@@ -52,26 +54,31 @@
           <div class="sizes">
             {#if product.sizes}
               {#each product.sizes as size (size)}
-                <div class="size">{size}</div>
+                <div
+                  class="size"
+                  on:click={() => (selected = size)}
+                  class:selected={size === selected}
+                >
+                  {size}
+                </div>
               {/each}
             {/if}
           </div>
           <div class="add">
-            {#if isAdded()}
-              <div
-                on:click={() => cartStore.addToCart(product)}
-                class="add-to-cart"
-              >
+            <div
+              on:click={() => {
+                let pr = product;
+                pr.size = selected;
+                cartStore.addToCart(pr);
+              }}
+              class="add-to-cart"
+            >
+              {#if isAdded()}
                 Added
-              </div>
-            {:else}
-              <div
-                on:click={() => cartStore.addToCart(product)}
-                class="add-to-cart"
-              >
+              {:else}
                 Add to basket
-              </div>
-            {/if}
+              {/if}
+            </div>
           </div>
         </div>
       </div>
@@ -128,6 +135,12 @@
     color: white;
   }
 
+  .selected {
+    font-weight: bold;
+    border: 1px solid var(--black);
+    padding: 8px;
+  }
+
   /* .info > div {
   margin-bottom: 24px;
 } */
@@ -148,6 +161,7 @@
     color: black;
     text-transform: uppercase;
     cursor: pointer;
+    padding: 8px;
   }
 
   .more-images > .more-image {

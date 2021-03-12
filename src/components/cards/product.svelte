@@ -5,7 +5,9 @@
   export let product: Product;
 
   $: isAdded = (): boolean => {
-    let p = $cartStore.products.find((pr) => pr._id === product._id);
+    let p = $cartStore.products.find(
+      (pr) => pr._id === product._id && product.size === pr.size
+    );
     return p ? true : false;
   };
 </script>

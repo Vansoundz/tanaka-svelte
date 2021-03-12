@@ -14,7 +14,9 @@ const createStore = () => {
     addToCart: (product: Product) =>
       update((store) => {
         let { products } = store;
-        let p = products.find((pr) => pr._id === product._id);
+        let p = products.find(
+          (pr) => pr._id === product._id && pr.size === product.size
+        );
         if (!p) {
           product.local_quantity = 1;
           products = [...products, product];
