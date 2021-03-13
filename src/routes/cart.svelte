@@ -13,22 +13,6 @@
     return total;
   })();
   let loading = false;
-  let submitted = false;
-
-  const customer: Customer = {};
-
-  const completeOrder = async () => {
-    if (!Object.keys(customer).length) {
-      return;
-    }
-    loading = true;
-    let resp = await placeOrder($cartStore.products, customer);
-    loading = false;
-    if (resp.order) {
-      submitted = true;
-      cartStore.init([]);
-    }
-  };
 </script>
 
 {#if loading}
@@ -75,14 +59,8 @@
           {/each}
         {:else}
           <div class="feedback">
-            {#if !submitted}
-              <h4>You have not added any product</h4>
-              <a href="explore" class="explore">Go shopping</a>
-            {:else}
-              <i class="material-icons tick">check_cirtcle</i>
-              <h4>Thank you for shopping with us</h4>
-              <a href="explore" class="explore">Continue shopping</a>
-            {/if}
+            <h4>You have not added any product</h4>
+            <a href="explore" class="explore">Go shopping</a>
           </div>
         {/if}
       </div>
@@ -105,7 +83,9 @@
             </div>
           </div>
           <div>
-            <button class="btn"> Proceed to checkout </button>
+            <a href="/checkout">
+              <button class="btn"> Proceed to checkout </button>
+            </a>
           </div>
         </div>
       {/if}
@@ -113,63 +93,6 @@
   </main>
 </div>
 
-<!-- {#if $cartStore.products.length > 0}
-        <div class="customer">
-          <h4>Shipping info</h4>
-          <form on:submit|preventDefault={completeOrder}>
-            <div>
-              <div><label for="name"> Name: </label></div>
-              <div>
-                <input
-                  bind:value={customer.name}
-                  class="input"
-                  type="text"
-                  id="name"
-                />
-              </div>
-            </div>
-            <div>
-              <div><label for="email"> Email: </label></div>
-              <div>
-                <input
-                  bind:value={customer.email}
-                  class="input"
-                  type="email"
-                  id="email"
-                />
-              </div>
-            </div>
-            <div>
-              <div><label for="phone"> Phone: </label></div>
-              <div>
-                <input
-                  bind:value={customer.phone}
-                  class="input"
-                  type="tel"
-                  id="phone"
-                />
-              </div>
-            </div>
-            <div>
-              <div><label for="location"> Address: </label></div>
-              <div>
-                <input
-                  bind:value={customer.address}
-                  class="input"
-                  type="text"
-                  id="location"
-                />
-              </div>
-            </div>
-            <div>
-              <div>
-                <h4>Total: {total}</h4>
-              </div>
-            </div>
-            <div><button class="submit">Submit</button></div>
-          </form>
-        </div>
-      {/if} -->
 <style>
   .container {
     padding: 1.5em 16px;
@@ -228,41 +151,6 @@
     border: 1px solid var(--yellow);
     color: var(--yellow);
   }
-
-  /* .customer {
-    min-width: 300px;
-    background: #fff;
-    padding: 16px;
-    box-shadow: 0 0 8px #ddd;
-    height: 100%;
-  } 
-
-  /* input {
-    margin: 8px 0;
-    padding: 8px;
-    border: 1px solid beige;
-    background: beige;
-    width: 100%;
-  }
-
-  input:focus {
-    border: 1px solid var(--black);
-  }
-
-  .submit {
-    margin: 8px auto;
-    display: block;
-    border: 1px solid #f18c12;
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .submit:hover {
-    color: #fff;
-    background-color: #f18c12;
-  } */
 
   .cart-item {
     background: #fff;
@@ -330,11 +218,6 @@
 
   .quantity > *:not(:last-child) {
     margin-right: 8px;
-  }
-
-  .tick {
-    color: #0af358;
-    font-size: 32px;
   }
 
   .explore {

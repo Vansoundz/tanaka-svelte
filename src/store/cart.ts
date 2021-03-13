@@ -34,7 +34,9 @@ const createStore = () => {
     removeItem: (product: Product) =>
       update((store) => {
         let { products } = store;
-        let p = products.find((pr) => pr._id === product._id);
+        let p = products.find(
+          (pr) => pr._id === product._id && pr.size === product.size
+        );
         if (p) {
           if (p.local_quantity >= 2) {
             products = products.map((pr) => {
@@ -43,17 +45,20 @@ const createStore = () => {
               }
               return pr;
             });
-          } else products = products.filter((pr) => pr._id !== product._id);
+          } else
+            products = products.filter(
+              (pr) => pr._id !== product._id && pr.size === product.size
+            );
 
           return {
             products,
           };
         }
       }),
-    deleteItem: (id: string) =>
+    deleteItem: (id: string, size?: string) =>
       update((store) => {
         let { products } = store;
-        products = products.filter((p) => p._id !== id);
+        products = products.filter((p) => p._id !== id && p.size === size);
         return {
           ...store,
           products,
