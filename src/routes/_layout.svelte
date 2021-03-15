@@ -22,6 +22,7 @@
   import { initAuth } from "../services/auth.service";
   import { toasts } from "../store/toasts";
   import { fly, slide } from "svelte/transition";
+  import Footer from "../components/Footer.svelte";
 
   NProgress.configure({
     // minimum: 0.16,
@@ -85,6 +86,7 @@
     {/each}
   </div>
   <slot />
+  <Footer />
 </main>
 
 <style>
