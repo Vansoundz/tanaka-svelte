@@ -38,4 +38,14 @@ const getOrders = async () => {
   }
 };
 
-export { placeOrder, getOrders };
+const deleteOrder = async (id: string) => {
+  try {
+    let data = (await orderApi.deleteOrder(id)).data;
+    return data.order;
+  } catch (error) {
+    if (error.response.data) throw error.response.data.errors;
+    throw error;
+  }
+};
+
+export { placeOrder, getOrders, deleteOrder };

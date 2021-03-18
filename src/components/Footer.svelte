@@ -25,6 +25,7 @@
   .footer {
     display: flex;
     flex-direction: column;
+    max-width: 200px;
   }
 
   .copy {

@@ -10,4 +10,9 @@ export default {
   getOrders() {
     return Axios.get(`${backend}/api/orders`, { headers: authHeader() });
   },
+  deleteOrder(id: string) {
+    return Axios.delete(`${backend}/api/orders/${id}`, {
+      headers: authHeader(),
+    });
+  },
 };
