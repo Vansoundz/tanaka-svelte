@@ -51,16 +51,17 @@
 </script>
 
 <main>
-  <div class="chart">
+  <div class="chart-">
+    dashboard
     <Line data={dataLine} options={{ responsive: true }} />
   </div>
 </main>
 
 <style>
-  .chart {
+  /* .chart {
     width: 700px;
     height: 400px;
     display: block;
     margin: 48px auto;
-  }
+  } */
 </style>

@@ -77,7 +77,7 @@
       {#each $productStore.categories as item (item._id)}
         <div class="grid category">
           <div>
-            {item._id}
+            {item._id?.slice(item._id?.length - 6)}
           </div>
           <div>{item.name}</div>
 
@@ -105,48 +105,97 @@
   </div>
   <h4>Products</h4>
   <div class="products">
-    <div class="header grid">
-      <div>#</div>
-      <div>Name</div>
-      <div>Price</div>
-      <div>Quantity</div>
-      <div>Category</div>
-      <div>Sizes</div>
-      <div>Edit</div>
-      <div>Delete</div>
-    </div>
+    <div class="desktop">
+      <div class="header grid">
+        <div>#</div>
+        <div>Name</div>
+        <div>Price</div>
+        <div>Quantity</div>
+        <div>Category</div>
+        <div>Sizes</div>
+        <div>Edit</div>
+        <div>Delete</div>
+      </div>
 
-    <div class="body">
+      <div class="body">
+        {#each $productStore.products as product (product._id)}
+          <div class="grid product">
+            <div>
+              <img
+                src={product.image}
+                alt={product.name}
+                width="40"
+                height="40"
+              />
+            </div>
+            <div>{product.name}</div>
+            <div>{product.price}</div>
+            <div>{product.quantity}</div>
+            <div>
+              {#each product.sizes as size (size)}
+                <span>
+                  {size},
+                </span>
+              {/each}
+            </div>
+            <div>{product.category.name}</div>
+          </div>
+        {/each}
+      </div>
+    </div>
+    <div class="mobile">
       {#each $productStore.products as product (product._id)}
-        <div class="grid product">
-          <div>
-            <img
-              src={product.image}
-              alt={product.name}
-              width="40"
-              height="40"
-            />
-          </div>
-          <div>{product.name}</div>
-          <div>{product.price}</div>
-          <div>{product.quantity}</div>
-          <div>
-            {#each product.sizes as size (size)}
+        <div class="product">
+          <div class="info">
+            <div>
               <span>
-                {size},
-              </span>
-            {/each}
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  width="40"
+                  height="40"
+                /></span
+              >
+              <span style="margin-left: 24px"><h4>{product.name}</h4></span>
+            </div>
+
+            <div>
+              <h6>Price:</h6>
+              &nbsp;
+              <span>{product.price}</span>
+            </div>
+            <div>
+              <h6>Quantity:</h6>
+              &nbsp;
+              <span>{product.quantity}</span>
+            </div>
           </div>
-          <div>{product.category.name}</div>
-          <div>
-            <a href="/admin/products/edit/{product._id}"
-              ><i class="material-icons">edit</i></a
-            >
+          <div class="sizes">
+            <h6>Sizes:</h6>
+            &nbsp;
+            <div>
+              {#each product.sizes as size (size)}
+                <span>
+                  {size},
+                </span>
+              {/each}
+            </div>
           </div>
-          <div>
-            <i on:click={() => deleteProd(product._id)} class="material-icons"
-              >delete</i
-            >
+          <div class="actions">
+            <div>
+              <a href="/admin/products/edit/{product._id}">
+                <i style="color: #40aeec" class="material-icons">edit</i>
+                <span style="color: #40aeec">Edit</span>
+              </a>
+            </div>
+            <div>
+              <i
+                style="color: #dc2020; margin-left: 32px"
+                on:click={() => deleteProd(product._id)}
+                class="material-icons">delete</i
+              >
+              <span style="color: #dc2020">Delete</span>
+            </div>
           </div>
         </div>
       {/each}
@@ -157,6 +206,14 @@
 <style>
   main {
     padding: 36px 24px;
+  }
+
+  .desktop {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
   }
 
   .first {
@@ -195,5 +252,41 @@
 
   .categories .grid {
     grid-template-columns: 2fr 2fr 1fr 1fr;
+  }
+
+  .product {
+    padding: 8px;
+    margin: 16px 0;
+    background: #fff;
+  }
+
+  .actions,
+  .actions *,
+  .info > div,
+  .sizes,
+  .sizes * {
+    display: flex;
+    align-items: center;
+  }
+
+  .sizes {
+    margin: 8px 0;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+    }
+    .categories .grid {
+      grid-template-columns: 1fr 2fr 1fr 1fr;
+    }
   }
 </style>

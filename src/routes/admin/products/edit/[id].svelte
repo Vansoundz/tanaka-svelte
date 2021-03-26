@@ -1,4 +1,4 @@
-<!-- <script context="module" ✂prettier:content✂="CiAgICBleHBvcnQgYXN5bmMgZnVuY3Rpb24gcHJlbG9hZCgpIHsKICAgICAgdHJ5IHsKICAgICAgICBsZXQgb3JkZXJzID0gYXdhaXQgZ2V0T3JkZXJzKCk7CiAgICAgICAgcmV0dXJuIHsKICAgICAgICAgIG9yZGVycywKICAgICAgICB9OwogICAgICB9IGNhdGNoIChlcnJvcikgewogICAgICAgIHJldHVybiB7CiAgICAgICAgICBvcmRlcnM6IFtdLAogICAgICAgIH07CiAgICAgIH0KICAgIH0KICA=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=">{}</script>
+<!-- <script context="module" ✂prettier:content✂="CiAgICBleHBvcnQgYXN5bmMgZnVuY3Rpb24gcHJlbG9hZCgpIHsKICAgICAgdHJ5IHsKICAgICAgICBsZXQgb3JkZXJzID0gYXdhaXQgZ2V0T3JkZXJzKCk7CiAgICAgICAgcmV0dXJuIHsKICAgICAgICAgIG9yZGVycywKICAgICAgICB9OwogICAgICB9IGNhdGNoIChlcnJvcikgewogICAgICAgIHJldHVybiB7CiAgICAgICAgICBvcmRlcnM6IFtdLAogICAgICAgIH07CiAgICAgIH0KICAgIH0KICA=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=">{}</script>
    -->
 <script lang="ts">
   import CreateEdit from "../../../../components/products/create.edit.svelte";
@@ -20,7 +20,6 @@
 </script>
 
 <main>
-  <h4>Create product</h4>
   <div class="create">
     {#if product}
       <CreateEdit edit={true} toEdit={product} />

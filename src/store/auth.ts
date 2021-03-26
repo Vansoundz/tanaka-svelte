@@ -5,12 +5,14 @@ interface IAuth {
   isLoggedIn: boolean;
   loading: boolean;
   user?: User;
+  open: boolean;
 }
 
 const createStore = () => {
   const { subscribe, update } = writable<IAuth>({
     isLoggedIn: false,
     loading: true,
+    open: false,
   });
 
   return {
@@ -31,6 +33,27 @@ const createStore = () => {
           isLoggedIn: false,
           loading: false,
           user: undefined,
+        };
+      }),
+    openSide: () =>
+      update((state) => {
+        return {
+          ...state,
+          open: true,
+        };
+      }),
+    closeSide: () =>
+      update((state) => {
+        return {
+          ...state,
+          open: false,
+        };
+      }),
+    initSide: (current: boolean) =>
+      update((state) => {
+        return {
+          ...state,
+          open: current,
         };
       }),
   };

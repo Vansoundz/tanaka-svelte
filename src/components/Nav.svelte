@@ -46,9 +46,26 @@
 </script>
 
 <nav>
-  <a href="/" id="logo">
-    <img src="/favicon.png" alt="logo" width="70" height="70" />
-  </a>
+  {#if $auth.isLoggedIn}
+    <span
+      id="logo"
+      style="display: flex; align-items: center;"
+      on:click={() => {
+        if ($auth.open) {
+          auth.closeSide();
+        } else {
+          auth.openSide();
+        }
+      }}
+    >
+      <i class="material-icons">sort</i>
+      <img src="/favicon.png" alt="logo" width="60" height="60" />
+    </span>
+  {:else}
+    <a href="/" id="logo">
+      <img src="/favicon.png" alt="logo" width="70" height="70" />
+    </a>
+  {/if}
   <div class="menu-trigger sm" on:click={showHideSidebar}>
     <i class="material-icons">menu</i>
   </div>
@@ -93,17 +110,18 @@
     </div>
   {/if}
   <div class="cart">
-    <a href="/cart">
-      <div id="basket">
-        <div class="material-icons">shopping_bag</div>
-        {#if $cartStore.products.length > 0}
-          <div class="counter">{$cartStore.products.length}</div>
-        {/if}
-      </div>
-    </a>
     {#if $auth.isLoggedIn}
-      <a href="/admin" style="margin-left:16px">
+      <a href="/admin" style="margin-left:{small ? '' : '16px'}">
         <i class="material-icons">account_circle</i>
+      </a>
+    {:else}
+      <a href="/cart">
+        <div id="basket">
+          <div class="material-icons">shopping_bag</div>
+          {#if $cartStore.products.length > 0}
+            <div class="counter">{$cartStore.products.length}</div>
+          {/if}
+        </div>
       </a>
     {/if}
   </div>

@@ -112,9 +112,15 @@
     </div>
   </div>
 </div>
-<div>
-  <h3>Trending</h3>
-  <div />
+<div class="features">
+  <div class="fts">
+    <h3>Why shop with us</h3>
+    <div>
+      <div class="card" />
+      <div class="card" />
+      <div class="card" />
+    </div>
+  </div>
 </div>
 
 <!-- 
@@ -205,5 +211,35 @@
   .center {
     display: flex;
     justify-content: center;
+  }
+
+  .features {
+    min-height: 350px;
+    padding: 16px;
+    background: #fff;
+    max-width: 100%;
+  }
+
+  .fts {
+    max-width: 95%;
+    display: block;
+    margin: auto;
+    padding: 24px 0;
+  }
+
+  .fts > div {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding-top: 24px;
+  }
+
+  .fts .card {
+    min-width: 200px;
+    max-width: 300px;
+    height: 250px;
+    box-shadow: 0 2px 8px #ddd;
+    padding: 16px;
+    margin-top: 24px;
   }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { auth } from "../../store/auth";
   import { goto } from "@sapper/app";
+  import { onMount } from "svelte";
 
   export let segment: string | undefined;
   let links = [
@@ -10,6 +11,14 @@
     { name: "blog", path: "/blog" },
   ];
 
+  onMount(() => {
+    auth.initSide(window.innerWidth <= 600 ? false : true);
+
+    window.addEventListener("resize", () => {
+      auth.initSide(window.innerWidth <= 600 ? false : true);
+    });
+  });
+
   $: {
     if (!$auth.loading && !$auth.isLoggedIn) {
       goto("/");
@@ -18,13 +27,24 @@
 </script>
 
 <main>
-  <aside>
-    <div class="side">
+  <aside
+    on:click|self={auth.closeSide}
+    style="height: {$auth.open ? '100vh' : ''}"
+  >
+    <div
+      class="side"
+      style="transform: {$auth.open
+        ? 'translateX(0px)'
+        : 'translateX(-1000px)'}"
+    >
       <ul>
         {#each links as link (link.name)}
           <li
             class:active={link.path === "/" ? !segment : link.name === segment}
-            on:click={() => goto(`admin${link.path}`)}
+            on:click={() => {
+              goto(`admin${link.path}`);
+              setTimeout(auth.closeSide, 100);
+            }}
           >
             <a href="/admin{link.path}">{link.name}</a>
           </li>
@@ -38,6 +58,10 @@
 </main>
 
 <style>
+  * {
+    transition: all 0.2s;
+  }
+
   main {
     display: grid;
     grid-template-columns: 1fr 5fr;
@@ -70,5 +94,20 @@
 
   li.active a {
     color: white;
+  }
+
+  @media screen and (max-width: 600px) {
+    main {
+      display: block;
+    }
+
+    .side {
+      width: 200px;
+    }
+
+    aside {
+      background: rgb(255 166 0 / 30%);
+      width: 100vw;
+    }
   }
 </style>

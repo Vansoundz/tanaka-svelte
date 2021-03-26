@@ -79,10 +79,11 @@
   }
 
   form {
-    min-width: 400px;
-    margin-top: 24px;
+    max-width: 400px;
+    margin: 32px 0;
     padding: 16px;
     background: #fff;
+    min-width: 300px;
   }
 
   input {
