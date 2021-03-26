@@ -77,7 +77,7 @@
       {#each $productStore.categories as item (item._id)}
         <div class="grid category">
           <div>
-            {item._id?.slice(item._id?.length - 6)}
+            {item._id.slice(item._id.length - 6)}
           </div>
           <div>{item.name}</div>
 
